@@ -13,14 +13,29 @@ if (isset($_POST['add_task'])) {
     $priority = intval($_POST['priority']);
     $due_date = $_POST['due_date'];
 
-    if (!empty($task) && !empty($priority) && !empty($due_date)) {
-        $stmt = $koneksi->prepare("INSERT INTO task (task, priority, due_date, status) VALUES (?, ?, ?, 0)");
-        $stmt->bind_param("sis", $task, $priority, $due_date);
-        if ($stmt->execute()) {
-            header("Location: index.php");
-            exit();
-        }
+    // Validasi input
+    if (!empty($task) && in_array($priority, [1, 2, 3]) && !empty($due_date) && strtotime($due_date) >= strtotime(date('Y-m-d'))) {
+        // Cek duplikasi task
+        $stmt = $koneksi->prepare("SELECT COUNT(*) FROM task WHERE task = ?");
+        $stmt->bind_param("s", $task);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
         $stmt->close();
+
+        if ($count == 0) {
+            $stmt = $koneksi->prepare("INSERT INTO task (task, priority, due_date, status) VALUES (?, ?, ?, 0)");
+            $stmt->bind_param("sis", $task, $priority, $due_date);
+            if ($stmt->execute()) {
+                header("Location: index.php");
+                exit();
+            }
+            $stmt->close();
+        } else {
+            echo "<script>alert('Task sudah ada'); window.location='index.php';</script>";
+        }
+    } else {
+        echo "<script>alert('Input tidak valid'); window.location='index.php';</script>";
     }
 }
 
