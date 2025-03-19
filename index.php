@@ -74,24 +74,43 @@ if (isset($_GET['delete'])) {
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #E4EFE7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .container {
             max-width: 700px;
         }
         .card {
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         .btn-add {
             background: linear-gradient(45deg, #007bff, #6610f2);
             color: white;
             border: none;
+            border-radius: 20px;
         }
         .btn-add:hover {
             background: linear-gradient(45deg, #0056b3, #520dc2);
         }
         .btn-action {
             width: 90px;
+            border-radius: 20px;
+        }
+        .table thead {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+        }
+        .table thead th {
+            border: none;
+        }
+        .table tbody tr {
+            transition: background-color 0.3s;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .badge {
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -125,7 +144,7 @@ if (isset($_GET['delete'])) {
         <!-- Tabel untuk menampilkan daftar Task -->
         <h3 class="text-center text-dark fw-bold mt-4">Daftar Task</h3>
         <table class="table table-hover shadow-sm bg-white rounded">
-            <thead class="bg-primary text-white">
+            <thead class="text-white">
                 <tr>
                     <th>No</th>
                     <th>Task</th>
